@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     name: {
-      type: Sting,
+      type: String,
       require: true,
       unique: true,
     },
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     email: {
-      type: Sting,
+      type: String,
       require: true,
       unique: true,
     },
@@ -23,29 +23,29 @@ const userSchema = new mongoose.Schema(
       require: true,
     },
     profilePicture: {
-      type: Sting,
+      type: String,
       default: "",
     },
     bannerIma: {
-      type: Sting,
+      type: String,
       default: "",
     },
     headline: {
-      type: Sting,
+      type: String,
       default: "LinkedIn User",
     },
     locatin: {
-      type: Sting,
+      type: String,
       default: "Earth",
     },
     about: {
-      type: Sting,
+      type: String,
       default: "",
     },
-    skills: [Sting],
+    skills: [String],
     experience: [
       {
-        type: Sting,
+        type: String,
         company: String,
         startDate: Date,
         endDate: Date,
@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
     ],
     edication: [
       {
-        school: Sting,
+        school: String,
         filedofStudy: String,
         startYear: Number,
         endYear: Number,

@@ -8,15 +8,14 @@ dotenv.config(); // Load environment variables
 const app = express();
 
 // Simple route to check if server is running
-// app.get("/", (req, res) => {
-//   res.send("server is running");
-// });
 
 app.use(express.json());
 
 // Use authentication routes
 app.use("/api/v1/auth", authRoute);
-
+app.get("/", (req, res) => {
+  res.send("server is running");
+});
 // Connect to MongoDB before starting the server
 const startServer = async () => {
   try {
