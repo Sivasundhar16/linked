@@ -2,6 +2,7 @@ import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { sendWelcomeEmail } from "../email/emailHandlers.js";
 dotenv.config();
 
 export const signup = async (req, res) => {
