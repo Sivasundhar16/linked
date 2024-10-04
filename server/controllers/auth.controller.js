@@ -59,6 +59,13 @@ export const signup = async (req, res) => {
     res.status(201).json({ message: "User register Successfully" });
 
     // send welcome email
+    const profileUrl = process.env.CLIENT_URL + "/profile" + user.username;
+
+    try {
+      await sendWelcomeEmail(user.email, user.name, profileUrl);
+    } catch (err) {
+      console.log("Error in sending Email", err);
+    }
   } catch (err) {
     console.log("Error in the setup", err.message);
     res.status(500).json({ message: "Internal server error" });
