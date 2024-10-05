@@ -1,11 +1,11 @@
-import { MailtrapClient as MailtrapSDK } from "mailtrap";
+import { MailtrapClient } from "mailtrap";
 import dotenv from "dotenv";
 dotenv.config();
 
-const TOKEN = process.env.MAIL_TOKEN;
+const TOKEN = process.env.MAILTRAP_TOKEN;
 
 // Rename the instance to avoid conflict
-export const mailClient = new MailtrapSDK({
+export const mailtrapClient = new MailtrapClient({
   token: TOKEN,
 });
 

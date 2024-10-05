@@ -1,11 +1,11 @@
-import { mailClient, sender } from "../controllers/mailtrap.js";
+import { mailtrapClient, sender } from "../controllers/mailtrap.js";
 import { createWelcomeEmailTemplate } from "./emailTemplates.js";
 
 export const sendWelcomeEmail = async (email, name, profileUrl) => {
   const recipient = [{ email }];
 
   try {
-    const response = await mailClient.send({
+    const response = await mailtrapClient.send({
       from: sender,
       to: recipient,
       subject: "Welcome to LinkedIn",
@@ -18,3 +18,6 @@ export const sendWelcomeEmail = async (email, name, profileUrl) => {
     throw error;
   }
 };
+
+// vsivasundhar002@gmail.com
+// b5d2836fe1be7a51abee11d5764abfb0;

@@ -65,7 +65,7 @@ export const signup = async (req, res) => {
     try {
       await sendWelcomeEmail(user.email, user.name, profileUrl);
     } catch (err) {
-      console.log("Error in sending Email", err);
+      console.log("Error in sending Email", err.message);
     }
   } catch (err) {
     console.log("Error in the setup", err.message);
