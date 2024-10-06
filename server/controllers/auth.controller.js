@@ -73,10 +73,47 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
-  res.send("login page");
+export const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    // check password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    // create and send token
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "3d",
+    });
+
+    await res.cookie("jwt-linkedin", token, {
+      httpOnly: true,
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    }); // 3 days
+
+    res.status(200).json({
+      message: "Logged in successfully",
+    });
+  } catch (error) {
+    console.log("Error Occur " + error);
+    res.status(500).json({ message: "Server Error" });
+  }
 };
 
 export const logout = (req, res) => {
-  res.send("logout page");
+  res.clearCookie("jwt-linkedin");
+  res.json({ message: "Logged out successfully" });
 };
