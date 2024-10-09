@@ -1,2 +1,5 @@
-let name = "siva";
-export default name;
+import express from "express";
+
+const router = express.Router();
+
+export default router;
