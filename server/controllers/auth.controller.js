@@ -20,7 +20,7 @@ export const signup = async (req, res) => {
     const existingusername = await User.findOne({ username });
     if (existingusername) {
       //if it had a value it returns true .
-      return res.status(400).json({ message: "Email Already Exists" });
+      return res.status(400).json({ message: "Username Already Exists" });
     }
 
     if (password.length < 6) {
