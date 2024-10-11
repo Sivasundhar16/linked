@@ -5,6 +5,7 @@ import userRoute from "./routes/user.route.js";
 import postRoutes from "./routes/post.routs.js";
 import connectDB from "../client/lib/db.js"; // Import connectDB as a named import
 import cookieParser from "cookie-parser";
+import notificationRoutes from "./routes/notificationRoutes.js";
 
 dotenv.config(); // Load environment variables
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/posts", postRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 // Connect to MongoDB before starting the server
 const startServer = async () => {
