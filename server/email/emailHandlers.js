@@ -2,7 +2,9 @@ import { mailtrapClient, sender } from "../controllers/mailtrap.js";
 import {
   createWelcomeEmailTemplate,
   createCommentNotificationEmailTemplate,
+  createConnectionAcceptedEmailTemplate,
 } from "./emailTemplates.js";
+// createWelcomeEmailTemplate createConnectionAcceptedEmailTemplate  createCommentNotificationEmailTemplate
 
 export const sendWelcomeEmail = async (email, name, profileUrl) => {
   const recipient = [{ email }];
@@ -11,7 +13,7 @@ export const sendWelcomeEmail = async (email, name, profileUrl) => {
     const response = await mailtrapClient.send({
       from: sender,
       to: recipient,
-      subject: "Welcome to LinkedIn",
+      subject: "Welcome to UnLinked",
       html: createWelcomeEmailTemplate(name, profileUrl), // inga text ah kuduthe email la text ah send panalam . html iruntha nalla design panna page ah send panalam
       category: "welcome",
     });
@@ -29,7 +31,7 @@ export const sendCommentNotificationEmail = async (
   postUrl,
   commentContent
 ) => {
-  const recipient = [{ email }];
+  const recipient = [{ email: recipientEmail }];
 
   try {
     const response = await mailtrapClient.send({
@@ -48,4 +50,28 @@ export const sendCommentNotificationEmail = async (
   } catch (error) {
     throw error;
   }
+};
+
+//sendConnectionAcceptedEmail
+export const sendConnectionAcceptedEmail = async (
+  senderEmail,
+  senderName,
+  recipientName,
+  profileUrl
+) => {
+  const recipient = await [{ email: senderEmail }];
+
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      subject: `${recipientName} accepted your connection request`,
+      html: createConnectionAcceptedEmailTemplate(
+        senderName,
+        recipientName,
+        profileUrl
+      ),
+      category: "connection_accepted",
+    });
+  } catch (error) {}
 };
