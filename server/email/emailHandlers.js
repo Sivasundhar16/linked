@@ -1,5 +1,8 @@
 import { mailtrapClient, sender } from "../controllers/mailtrap.js";
-import { createWelcomeEmailTemplate } from "./emailTemplates.js";
+import {
+  createWelcomeEmailTemplate,
+  createCommentNotificationEmailTemplate,
+} from "./emailTemplates.js";
 
 export const sendWelcomeEmail = async (email, name, profileUrl) => {
   const recipient = [{ email }];
@@ -19,5 +22,30 @@ export const sendWelcomeEmail = async (email, name, profileUrl) => {
   }
 };
 
-// vsivasundhar002@gmail.com
-// b5d2836fe1be7a51abee11d5764abfb0;
+export const sendCommentNotificationEmail = async (
+  recipientEmail,
+  recipientName,
+  commenterName,
+  postUrl,
+  commentContent
+) => {
+  const recipient = [{ email }];
+
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      subject: "New comments on your post",
+      html: createCommentNotificationEmailTemplate(
+        recipientName,
+        commenterName,
+        postUrl,
+        commentContent
+      ),
+      category: "Comment_notification",
+    });
+    console.log("comment mail sent succesfully");
+  } catch (error) {
+    throw error;
+  }
+};
