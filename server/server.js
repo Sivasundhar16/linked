@@ -5,7 +5,7 @@ import userRoute from "./routes/user.route.js";
 import postRoutes from "./routes/post.routs.js";
 import connectDB from "../client/lib/db.js"; // Import connectDB as a named import
 import cookieParser from "cookie-parser";
-import notificationRoutes from "./routes/notificationRoutes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 
 dotenv.config(); // Load environment variables
 
