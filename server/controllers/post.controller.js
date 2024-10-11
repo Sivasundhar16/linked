@@ -1,5 +1,6 @@
 import cloudinary from "../cloud/cloudnary.js";
 import Post from "../models/post.model.js";
+import Notification from "../models/notification.model.js";
 
 export const getFeedPost = async (req, res) => {
   try {
@@ -78,6 +79,52 @@ export const getPostById = async (req, res) => {
     res.status(200).json(post);
   } catch (error) {
     console.log("Error in getPostbyID ", error.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const createComment = async (req, res) => {
+  try {
+    const postId = req.param.id;
+    const { content } = req.body;
+
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: { comments: { user: req.user._id, content } },
+      },
+      { new: true }
+    ).populate("author", "name email username headline profilePicture");
+
+    // create the notification if comment made by others
+
+    if (post.author.toString() !== req.user._id.toString()) {
+      const newNotification = new Notification({
+        recipient: post.author,
+        type: "comments",
+        relatedUser: req.user._id,
+        relatedPost: postId,
+      });
+      await newNotification.save();
+
+      //send email
+
+      try {
+        const postUrl = process.env.CLIENT_URL + "/post/" + postId;
+        await sendCommentNotificationEmail(
+          post.author.email,
+          post.author.name,
+          req.user.name,
+          postUrl,
+          content
+        );
+      } catch (error) {
+        console.log("Error in message Sending", error);
+      }
+    }
+    res.status(200).json(post);
+  } catch (error) {
+    console.log("Error in requrest", error.message);
     res.status(500).json({ message: "Server Error" });
   }
 };
