@@ -10,7 +10,7 @@ export const SignupPage = () => {
           src="/logo.svg"
           alt="linkedin image"
         />
-        <h2 className="text-center text-3xl font-extralight text-gray-900 dark:text-white">
+        <h2 className="text-center text-3xl font-extralight text-gray-900">
           Make the most of your Professional Life
         </h2>
       </div>
