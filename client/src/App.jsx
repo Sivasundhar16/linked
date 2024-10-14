@@ -1,5 +1,6 @@
 import Layout from "./components/layout/Layout";
 import { Routes, Route } from "react-router-dom";
+
 import { SignupPage } from "./pages/auth/SignupPage";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { HomePage } from "./pages/HomePage";

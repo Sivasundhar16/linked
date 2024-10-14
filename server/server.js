@@ -7,10 +7,18 @@ import connectDB from "../client/lib/db.js"; // Import connectDB as a named impo
 import cookieParser from "cookie-parser";
 import notificationRoutes from "./routes/notification.routes.js";
 import connectionRoutes from "./routes/connection.route.js";
+import cors from "cors";
 
 dotenv.config(); // Load environment variables
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Simple route to check if server is running
 
@@ -28,7 +36,7 @@ app.use("/api/v1/connection", connectionRoutes);
 const startServer = async () => {
   try {
     await connectDB(); // Connect to MongoDB
-    const PORT = process.env.PORT || 4000;
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
   } catch (error) {
     console.error("Failed to start the server:", error.message);
