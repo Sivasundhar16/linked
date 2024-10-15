@@ -19,7 +19,7 @@ export const SignUpFrom = () => {
       toast.success("Account Created Successfully");
     },
     onError: (err) => {
-      toast.error(err.message);
+      toast.error(err.message || "Someting Went Wrong");
     },
   });
   const handleSignup = (e) => {
