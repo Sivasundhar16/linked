@@ -26,5 +26,10 @@ export const Navbar = () => {
     (notif) => !notif.read
   ).length;
 
-  return <div>Navbar</div>;
+  return (
+    <div>
+      Navbar
+      <button>Log out</button>
+    </div>
+  );
 };
