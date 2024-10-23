@@ -1,18 +1,24 @@
 import { useQueries } from "@tanstack/react-query";
 import { axiosInstance } from "../lib/axios";
-import toast from "react-hot-toast";
 
 export const HomePage = () => {
   const { data: recommendedUsers } = useQueries({
     queryKey: ["recommendedUser"],
     queryFn: async () => {
-      try {
-        const res = await axiosInstance.get("/users/recommended");
-        return res.data;
-      } catch (error) {
-        toast.error(error.response.data.message || "Something went Wrong");
-      }
+      const res = await axiosInstance.get("/users/suggestions");
+      return res.data;
     },
   });
+  const { data: posts } = useQueries({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/posts");
+      return res.data;
+    },
+  });
+
+  console.log("recommendeduser ", recommendedUsers);
+  console.log("posts ", posts);
+
   return <div>HomePage</div>;
 };
