@@ -7,14 +7,14 @@ export const Navbar = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const queryClient = useQueryClient();
 
-  const { data: notificaions } = useQuery({
-    queryKey: ["nofifications"],
+  const { data: notifications } = useQuery({
+    queryKey: ["notifications"],
     queryFn: async () => axiosInstance.get("/notifications"),
     enabled: !!authUser,
   });
 
-  const { data: connectionRequest } = useQuery({
-    queryKey: ["connectionRequest"],
+  const { data: connectionRequests } = useQuery({
+    queryKey: ["connectionRequests"],
     queryFn: async () => axiosInstance.get("/connections/requests"),
     enabled: !!authUser,
   });
@@ -26,11 +26,10 @@ export const Navbar = () => {
     },
   });
 
-  const unreadNotificationCount = notificaions?.data.filter(
-    (notif) => !notif.reads
+  const unreadNotificationCount = notifications?.data.filter(
+    (notif) => !notif.read
   ).length;
-
-  const unreadConnectionRequestsCount = connectionRequest?.data.length;
+  const unreadConnectionRequestsCount = connectionRequests?.data?.length;
 
   return (
     <nav className="bg-secondary shadow-md sticky top-0 z-10">

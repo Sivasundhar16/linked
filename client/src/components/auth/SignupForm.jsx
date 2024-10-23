@@ -22,7 +22,7 @@ export const SignUpFrom = () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
     onError: (err) => {
-      toast.error(err.message || "Someting Went Wrong");
+      toast.error(err.response.data.message || "Someting Went Wrong");
     },
   });
   const handleSignup = (e) => {
@@ -30,7 +30,7 @@ export const SignUpFrom = () => {
     signUpMutaiton({ name, username, email, password });
   };
   return (
-    <form onSubmit={handleSignup} className="flex flex-col gap-3">
+    <form onSubmit={handleSignup} className="flex flex-col gap-3 ">
       <input
         type="text"
         placeholder="Full Name"
