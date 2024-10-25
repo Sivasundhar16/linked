@@ -30,7 +30,7 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
-app.use("/api/v1/connection", connectionRoutes);
+app.use("/api/v1/connections", connectionRoutes);
 
 // Connect to MongoDB before starting the server
 const startServer = async () => {

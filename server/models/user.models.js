@@ -4,37 +4,24 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: true,
-      unique: true,
+      required: true,
     },
-
-    username: {
-      type: String,
-      require: true,
-      unique: true,
-    },
-    email: {
-      type: String,
-      require: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      require: true,
-    },
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     profilePicture: {
       type: String,
       default: "",
     },
-    bannerIma: {
+    bannerImg: {
       type: String,
       default: "",
     },
     headline: {
       type: String,
-      default: "LinkedIn User",
+      default: "Linkedin User",
     },
-    locatin: {
+    location: {
       type: String,
       default: "Earth",
     },
@@ -45,22 +32,22 @@ const userSchema = new mongoose.Schema(
     skills: [String],
     experience: [
       {
-        type: String,
+        title: String,
         company: String,
         startDate: Date,
         endDate: Date,
         description: String,
       },
     ],
-    edication: [
+    education: [
       {
         school: String,
-        filedofStudy: String,
+        fieldOfStudy: String,
         startYear: Number,
         endYear: Number,
       },
     ],
-    connection: [
+    connections: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -70,5 +57,5 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 export default User;

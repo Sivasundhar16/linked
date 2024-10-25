@@ -1,13 +1,23 @@
 import cloudinary from "../cloud/cloudnary.js";
 import Post from "../models/post.model.js";
 import Notification from "../models/notification.model.js";
+import { sendCommentNotificationEmail } from "../email/emailHandlers.js";
 
-export const getFeedPost = async (req, res) => {
+// param
+export const getFeedPosts = async (req, res) => {
   try {
-    const posts = await Post.find({ author: { $in: req.user.connections } })
+    // Fallback if connections is undefined or null
+    const connections = Array.isArray(req.user.connections)
+      ? req.user.connections
+      : [];
+
+    const posts = await Post.find({
+      author: { $in: [...connections, req.user._id] },
+    })
       .populate("author", "name username profilePicture headline")
       .populate("comments.user", "name profilePicture")
       .sort({ createdAt: -1 });
+
     res.status(200).json(posts);
   } catch (error) {
     console.log("Error in Getfeedpost controller", error.message);
@@ -39,7 +49,6 @@ export const createPost = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 export const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -56,6 +65,12 @@ export const deletePost = async (req, res) => {
     }
 
     //delete the image from cloudnary
+    // if (post.image) {
+    //   await cloudinary.uploader.destroy(
+    //     post.image.split("/").pop().split(".")[0]
+    //   );
+    // }
+    // delete the image from cloudinary as well!
     if (post.image) {
       await cloudinary.uploader.destroy(
         post.image.split("/").pop().split(".")[0]
@@ -72,7 +87,7 @@ export const deletePost = async (req, res) => {
 
 export const getPostById = async (req, res) => {
   try {
-    const postId = req.param.id;
+    const postId = req.params.id;
     const post = await Post.findById(postId)
       .populate("author", "name username profilePicture headline")
       .populate("comments.user", "name profilePicture username headline");
@@ -85,7 +100,7 @@ export const getPostById = async (req, res) => {
 
 export const createComment = async (req, res) => {
   try {
-    const postId = req.param.id;
+    const postId = req.params.id;
     const { content } = req.body;
 
     const post = await Post.findByIdAndUpdate(
@@ -131,7 +146,7 @@ export const createComment = async (req, res) => {
 
 export const likePost = async (req, res) => {
   try {
-    const postId = req.param.id;
+    const postId = req.params.id;
     const post = await Post.findById(postId);
     const userId = req.user._id;
 
@@ -153,7 +168,7 @@ export const likePost = async (req, res) => {
         await newNotification.save();
       }
       await post.save();
-      res.json(200).json(post);
+      res.status(200).json(post);
     }
   } catch (error) {
     console.log("Error ", error.message);
