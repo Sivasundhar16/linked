@@ -56,7 +56,10 @@ const Post = ({ post }) => {
     deletePost();
   };
 
-  const handleLikePost = async () => {};
+  const handleLikePost = async () => {
+    if (isLikingPost) return;
+    likePost();
+  };
 
   return (
     <div className="bg-secondary rounded-lg shadow mb-4">
