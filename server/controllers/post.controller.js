@@ -111,18 +111,16 @@ export const createComment = async (req, res) => {
       { new: true }
     ).populate("author", "name email username headline profilePicture");
 
-    // create the notification if comment made by others
-
-    if (post.author.toString() !== req.user._id.toString()) {
+    // create a notification if the comment owner is not the post owner
+    if (post.author._id.toString() !== req.user._id.toString()) {
       const newNotification = new Notification({
         recipient: post.author,
-        type: "comments",
+        type: "comment",
         relatedUser: req.user._id,
         relatedPost: postId,
       });
-      await newNotification.save();
 
-      //send email
+      await newNotification.save();
 
       try {
         const postUrl = process.env.CLIENT_URL + "/post/" + postId;
@@ -134,13 +132,14 @@ export const createComment = async (req, res) => {
           content
         );
       } catch (error) {
-        console.log("Error in message Sending", error);
+        console.log("Error in sending comment notification email:", error);
       }
     }
+
     res.status(200).json(post);
   } catch (error) {
-    console.log("Error in requrest", error.message);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Error in createComment controller:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
