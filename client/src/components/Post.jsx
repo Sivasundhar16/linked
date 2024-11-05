@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PostAction } from "./PostAction";
+import { formatDistanceToNow } from "date-fns";
 
 const Post = ({ post }) => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -107,6 +108,12 @@ const Post = ({ post }) => {
                 <h3 className="font-semibold">{post.author.name}</h3>
               </Link>
               <p className="text-xs text-info">{post.author.headline}</p>
+              {/* { add to created at field and format it} */}
+              <p className="text-xs text-info">
+                {formatDistanceToNow(new Date(post.createdAt), {
+                  addSuffix: true,
+                })}
+              </p>
             </div>
           </div>
           {isOwner && (
@@ -169,9 +176,9 @@ const Post = ({ post }) => {
                     <span className="font-semibold mr-2">
                       {comment.user.name}
                     </span>
-                    {/* <span className="text-xs text-info">
+                    <span className="text-xs text-info">
                       {formatDistanceToNow(new Date(comment.createdAt))}
-                    </span> */}
+                    </span>
                   </div>
                   <p>{comment.content}</p>
                 </div>
