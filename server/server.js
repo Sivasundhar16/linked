@@ -10,17 +10,19 @@ import connectionRoutes from "./routes/connection.route.js";
 import cors from "cors";
 import path from "path";
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 const __dirname = path.resolve();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
+}
 
 // Simple route to check if server is running
 
@@ -33,6 +35,13 @@ app.use("/api/v1/users", userRoute);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/connections", connectionRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/client/dist/")));
+  app.get("*", (res, req) => {
+    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+  });
+}
 
 // Connect to MongoDB before starting the server
 const startServer = async () => {
