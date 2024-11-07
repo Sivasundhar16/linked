@@ -1,5 +1,7 @@
 import ConnectionRequest from "../models/connectionrequest.js";
 import { sendConnectionAcceptedEmail } from "../email/emailHandlers.js";
+import Notification from "../models/notification.model.js";
+import User from "../models/user.models.js";
 
 export const sendConnectionRequest = async (req, res) => {
   try {

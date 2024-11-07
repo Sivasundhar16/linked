@@ -14,12 +14,8 @@ const connectionRequestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Accepted", "Rejected"],
-      default: "Pending",
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+      enum: ["pending", "accepted", "rejected"],
+      default: "pending",
     },
   },
   { timestamps: true }
@@ -29,4 +25,5 @@ const ConnectionRequest = mongoose.model(
   "ConnectionRequest",
   connectionRequestSchema
 );
+
 export default ConnectionRequest;

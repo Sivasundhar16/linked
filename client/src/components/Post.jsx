@@ -10,11 +10,12 @@ import {
   ThumbsUp,
   Trash2,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PostAction } from "./PostAction";
 import { formatDistanceToNow } from "date-fns";
 
 const Post = ({ post }) => {
+  const { postId } = useParams();
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
@@ -57,6 +58,7 @@ const Post = ({ post }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["posts", postId] });
     },
   });
 

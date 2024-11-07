@@ -1,49 +1,48 @@
 import Notification from "../models/notification.model.js";
+import User from "../models/user.models.js";
 
 export const getUserNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({
-      recipient: req.user._id,
-    })
+    const notifications = await Notification.find({ recipient: req.user._id })
       .sort({ createdAt: -1 })
       .populate("relatedUser", "name username profilePicture")
       .populate("relatedPost", "content image");
 
     res.status(200).json(notifications);
   } catch (error) {
-    console.log("Error in controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error in getUserNotifications controller:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+//user
 
 export const markNotificationAsRead = async (req, res) => {
-  const notificationId = req.param.id;
+  const notificationId = req.params.id;
   try {
-    const notificaiton = await Notification.findByIdAndUpdate(
-      {
-        _id: notificationId,
-        recipient: req.user._id,
-      },
+    const notification = await Notification.findByIdAndUpdate(
+      { _id: notificationId, recipient: req.user._id },
       { read: true },
       { new: true }
     );
-    res.json(notificaiton);
+
+    res.json(notification);
   } catch (error) {
-    console.log("Error occured", error.message);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Error in markNotificationAsRead controller:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
 export const deleteNotification = async (req, res) => {
-  const notificationId = req.param.id;
+  const notificationId = req.params.id;
 
   try {
-    await Notification.findByIdAndDelete({
+    await Notification.findOneAndDelete({
       _id: notificationId,
       recipient: req.user._id,
     });
-    res.json({ message: "Notification Deleted Succesfully" });
+
+    res.json({ message: "Notification deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server error" });
   }
 };

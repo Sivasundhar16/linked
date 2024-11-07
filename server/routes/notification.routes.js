@@ -13,8 +13,7 @@ router.get("/", protectRoute, getUserNotifications);
 router.put("/:id/read", protectRoute, markNotificationAsRead);
 router.delete("/:id", protectRoute, deleteNotification);
 
+export default router;
 // router.get("/", protectRoute, getUserNotifications);
 // router.put("/:id/read", protectRoute, markNotificationAsRead);
 // router.delete("/:id", protectRoute, deleteNotification);
-
-export default router;
