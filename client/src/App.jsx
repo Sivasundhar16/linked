@@ -1,6 +1,6 @@
 import Layout from "./components/layout/Layout";
 import { Routes, Route, Navigate } from "react-router-dom";
-
+import ProfilePage from "./pages/ProfilePage";
 import { SignupPage } from "./pages/auth/SignupPage";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { HomePage } from "./pages/HomePage";
@@ -57,6 +57,10 @@ function App() {
         <Route
           path="/post/:postId"
           element={authUser ? <PostPage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/profile/:username"
+          element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
         />
       </Routes>
       <Toaster />
