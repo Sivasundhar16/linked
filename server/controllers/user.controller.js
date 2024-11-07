@@ -67,7 +67,7 @@ export const updateProfile = async (req, res, next) => {
       updatedData.profilePicture = result.secure_url;
     }
     if (req.body.bannerImg) {
-      const result = await cloudinary.uploader.upload(req.body.profilePicture);
+      const result = await cloudinary.uploader.upload(req.body.bannerImg);
       updatedData.bannerImg = result.secure_url;
     }
 
