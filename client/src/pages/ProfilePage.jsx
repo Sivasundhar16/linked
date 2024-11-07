@@ -5,8 +5,8 @@ import { axiosInstance } from "../lib/axios";
 import ProfileHeader from "../components/ProfileHeader";
 import AboutSection from "../components/AboutSection";
 import ExperienceSection from "../components/ExperienceSection";
-// import EducationSection from "../components/EducationSection";
-// import SkillsSection from "../components/SkillsSection";
+import EducationSection from "../components/EducationSection";
+import SkillsSection from "../components/SkillsSection";
 import toast from "react-hot-toast";
 
 const ProfilePage = () => {
@@ -58,7 +58,7 @@ const ProfilePage = () => {
         isOwnProfile={isOwnProfile}
         onSave={handleSave}
       />
-      {/* <EducationSection
+      <EducationSection
         userData={userData}
         isOwnProfile={isOwnProfile}
         onSave={handleSave}
@@ -67,7 +67,7 @@ const ProfilePage = () => {
         userData={userData}
         isOwnProfile={isOwnProfile}
         onSave={handleSave}
-      /> */}
+      />
     </div>
   );
 };
