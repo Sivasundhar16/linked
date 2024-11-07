@@ -8,10 +8,12 @@ import cookieParser from "cookie-parser";
 import notificationRoutes from "./routes/notification.routes.js";
 import connectionRoutes from "./routes/connection.route.js";
 import cors from "cors";
+import path from "path";
 
 dotenv.config(); // Load environment variables
 
 const app = express();
+const __dirname = path.resolve();
 
 app.use(
   cors({
